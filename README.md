@@ -1,2 +1,2 @@
 # Regitranatorius
-2D platformer type game (Software Engineering module project)
+2D side-scrolling driving type game (Software Engineering module project)
