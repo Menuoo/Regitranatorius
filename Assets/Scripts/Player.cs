@@ -8,12 +8,13 @@ using static Unity.Mathematics.math;
 public class Player : MonoBehaviour
 {
     [SerializeField, Range(1f, 50f)]
-    float acceleration = 20f;
+    float acceleration = 50f;
     float speed;
     float speedLimit = 20f;
 
     [SerializeField]
     GameObject wheel1, wheel2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,23 +25,36 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("d"))
+        // all the basic movements:
+
+        if (Input.GetKey("d")) // move forward
         {
             if (speed < speedLimit)
             speed += acceleration * Time.deltaTime * 2f;
         }
-        else if (Input.GetKey("a"))
+        else if (Input.GetKey("a")) // move backward
         { 
             if (speed > -speedLimit)
             speed -= acceleration * Time.deltaTime * 2f;
         }
-        else if (abs(speed) > 0f)
+        else if (abs(speed) > 0f) //automatic decceleration
         {
             speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
         }
 
-        transform.Translate(new Vector2(speed*Time.deltaTime, 0f));
-        wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));
-        wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));
+        if (Input.GetKey("w")) // move up
+        {
+            if (transform.position.y <= 4.5f) // limits y position
+            transform.Translate(new Vector2(0f, abs(speed*Time.deltaTime / 4f)));
+        }
+        else if (Input.GetKey("s")) //move down
+        {
+            if (transform.position.y > -4.5f) // limits y position
+            transform.Translate(new Vector2(0f, -abs(speed*Time.deltaTime / 4f)));
+        }
+
+        transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
+        wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
+        wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
     }
 }
