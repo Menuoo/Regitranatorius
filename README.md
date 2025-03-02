@@ -1,2 +1,2 @@
 # Regitranatorius
-2D Platformer tipo vaizdo žaidimas (programų inžinerijos modulio projektas).
+2D side-scrolling driving type game (Software Engineering module project)
