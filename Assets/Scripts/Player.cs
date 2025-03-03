@@ -53,6 +53,21 @@ public class Player : MonoBehaviour
             transform.Translate(new Vector2(0f, -abs(speed*Time.deltaTime / 4f)));
         }
 
+        // jump mechanic
+
+        if (Input.GetKey("e")) // jump
+        {
+            if (transform.position.y <= 4.5f) // limits y position
+                transform.Translate(new Vector2(0f, abs(speed*2 * Time.deltaTime / 4f)));
+        }
+
+        if (Input.GetKey("q")) // nitrous
+        {
+            if(speed < speedLimit)
+            speed += acceleration * Time.deltaTime * 2f+25;
+        }
+
+
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
         wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
         wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2

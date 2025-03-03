@@ -664,7 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddc95e7da937ae49a22e568f2d89d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 5
+  acceleration: 15.1
   wheel1: {fileID: 160016051}
   wheel2: {fileID: 685599072}
 --- !u!1660057539 &9223372036854775807
@@ -674,3 +674,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1311480794}
   - {fileID: 692359669}
+  - {fileID: 1614197548}
