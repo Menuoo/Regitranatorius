@@ -61,11 +61,14 @@ public class Player : MonoBehaviour
                 transform.Translate(new Vector2(0f, abs(speed*2 * Time.deltaTime / 4f)));
         }
 
+        // nitrous mechanic
+
         if (Input.GetKey("q")) // nitrous
         {
             if(speed < speedLimit)
             speed += acceleration * Time.deltaTime * 2f+25;
         }
+
 
 
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
