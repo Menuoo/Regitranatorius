@@ -4,22 +4,24 @@ using UnityEngine;
 using Unity.Mathematics;
 
 using static Unity.Mathematics.math;
+using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField, Range(1f, 50f)]
     float acceleration = 50f;
-    float speed;
+    float speed, ySpeed;
     float speedLimit = 20f;
+    bool isJumping = false;
 
     [SerializeField]
-    GameObject wheel1, wheel2;
+    GameObject wheel1, wheel2, body;
 
+    BoxCollider2D collider;
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        collider = gameObject.GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -53,22 +55,39 @@ public class Player : MonoBehaviour
             transform.Translate(new Vector2(0f, -abs(speed*Time.deltaTime / 4f)));
         }
 
-        // jump mechanic
 
-        if (Input.GetKey("e")) // jump
+        // jump mechanic
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping) // jump
         {
-            if (transform.position.y <= 4.5f) // limits y position
-                transform.Translate(new Vector2(0f, abs(speed*2 * Time.deltaTime / 4f)));
+            isJumping = true;
+            collider.enabled = false;
+            ySpeed = 20f; // set the jumping speed (and height)
         }
+        if (isJumping)
+        {
+            ySpeed -= acceleration * Time.deltaTime;
+            body.transform.Translate(new Vector2(0f, ySpeed * Time.deltaTime));
+
+            Debug.Log(body.transform.position.y);
+
+            if (body.transform.localPosition.y <= 0f)
+            {
+                body.transform.localPosition = new Vector3(0f, 0f, 0f);
+                isJumping = false;
+                collider.enabled = true;
+            }
+        }
+        // end of jump mechanic
+
+
 
         // nitrous mechanic
 
-        if (Input.GetKey("q")) // nitrous
+        /*if (Input.GetKey("q")) // nitrous
         {
             if(speed < speedLimit)
             speed += acceleration * Time.deltaTime * 2f+25;
-        }
-
+        }*/
 
 
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move

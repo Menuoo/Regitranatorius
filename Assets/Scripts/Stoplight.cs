@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Stoplight : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
 
