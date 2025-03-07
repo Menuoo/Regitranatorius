@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Stoplight : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
-
     [SerializeField]
     float update_time;
+
     [SerializeField]
-    Sprite sprite;
+    GameObject light;
 
-
+    BoxCollider2D collider;
+    SpriteRenderer lightCircle;
     
     // Start is called before the first frame update
     void Start()
     {
-       
-        spriteRenderer.sprite = sprite;
-        spriteRenderer.color = Color.red;
+        collider = GetComponent<BoxCollider2D>();
+        lightCircle = light.GetComponent<SpriteRenderer>();
+        timePassed = update_time;
     }
 
 
@@ -27,14 +27,18 @@ public class Stoplight : MonoBehaviour
     void Update()
     {
         timePassed += Time.deltaTime;
-        if(timePassed>update_time)
+        if (timePassed > update_time * 2)
         {
-            spriteRenderer.color = Color.green;
-        }
-        if(timePassed>update_time*2)
-        {
-            spriteRenderer.color = Color.red;
+            lightCircle.color = new Color(0.9f, 0f, 0f, 0.4f);
+            light.transform.localPosition = new Vector3(0f, 0.1f, 0f);
+            collider.enabled = true;
             timePassed = 0f;
+        }
+        else if (timePassed>update_time)
+        {
+            lightCircle.color = new Color(0f, 0.9f, 0f, 0.4f);
+            light.transform.localPosition = Vector3.zero;
+            collider.enabled = false;
         }
     }
 }

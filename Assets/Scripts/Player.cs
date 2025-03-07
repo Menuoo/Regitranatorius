@@ -10,19 +10,23 @@ public class Player : MonoBehaviour
 {
     float acceleration = 50f;
     float speed, ySpeed;
-    float speedLimit = 20f;
+    float speedLimit = 30f;
     bool isJumping = false;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body;
+    GameObject wheel1, wheel2, body, mistake;
 
     BoxCollider2D collider;
+    SpriteRenderer redX;
 
     // Start is called before the first frame update
     void Start()
     {
         collider = gameObject.GetComponent<BoxCollider2D>();
+        redX = mistake.GetComponent<SpriteRenderer>();
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -46,7 +50,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey("w")) // move up
         {
-            if (transform.position.y <= 4.5f) // limits y position
+            if (transform.position.y <= 0f) // limits y position
             transform.Translate(new Vector2(0f, abs(speed*Time.deltaTime / 4f)));
         }
         else if (Input.GetKey("s")) //move down
@@ -67,8 +71,6 @@ public class Player : MonoBehaviour
         {
             ySpeed -= acceleration * Time.deltaTime;
             body.transform.Translate(new Vector2(0f, ySpeed * Time.deltaTime));
-
-            Debug.Log(body.transform.position.y);
 
             if (body.transform.localPosition.y <= 0f)
             {
@@ -93,5 +95,12 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
         wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
         wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("something");
+        redX.enabled = true;
+        mistake.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
     }
 }
