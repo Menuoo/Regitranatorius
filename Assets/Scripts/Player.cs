@@ -12,18 +12,21 @@ public class Player : MonoBehaviour
     float speed, ySpeed;
     float speedLimit = 30f;
     bool isJumping = false;
+    bool toggled = false;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake;
+    GameObject wheel1, wheel2, body, mistake, brakeLight,headLight;
 
     BoxCollider2D collider;
-    SpriteRenderer redX;
+    SpriteRenderer redX, brakeCircle,headLightCircle;
 
     // Start is called before the first frame update
     void Start()
     {
         collider = gameObject.GetComponent<BoxCollider2D>();
         redX = mistake.GetComponent<SpriteRenderer>();
+        brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
+        headLightCircle = headLight.GetComponent<SpriteRenderer>();
     }
 
 
@@ -37,11 +40,15 @@ public class Player : MonoBehaviour
         {
             if (speed < speedLimit)
             speed += acceleration * Time.deltaTime * 2f;
+            brakeCircle.enabled = false;
         }
         else if (Input.GetKey("a")) // move backward
-        { 
+        {
+            
             if (speed > -speedLimit)
             speed -= acceleration * Time.deltaTime * 2f;
+            brakeCircle.enabled = true;
+
         }
         else if (abs(speed) > 0f) //automatic decceleration
         {
@@ -57,6 +64,20 @@ public class Player : MonoBehaviour
         {
             if (transform.position.y > -4.5f) // limits y position
             transform.Translate(new Vector2(0f, -abs(speed*Time.deltaTime / 4f)));
+            
+        }
+        // honk mechanic
+        if (Input.GetKey("h"))
+        {
+            redX.enabled = true;
+            redX.color = new Color(0f, 0f, 0.5f);
+        }
+
+        // headlight mechanic
+        if (Input.GetKey("l")) // headlights
+        {
+            toggled = !toggled; // doing this every frame looks and is retarded
+            headLightCircle.enabled = toggled;
         }
 
 
@@ -102,5 +123,6 @@ public class Player : MonoBehaviour
         Debug.Log("something");
         redX.enabled = true;
         mistake.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+        
     }
 }
