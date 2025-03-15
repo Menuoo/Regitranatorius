@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     bool toggled = false;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText;
+    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow;
 
     BoxCollider2D collider;
     SpriteRenderer redX, brakeCircle,headLightCircle;
@@ -120,10 +120,14 @@ public class Player : MonoBehaviour
         }*/
 
 
-        text.SetText(String.Format("{0}", (int)abs(speed)));
+
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
         wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
         wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
+
+        text.SetText(String.Format("{0}", (int)abs(speed)));        // changes display speed
+        speedArrow.transform.rotation = Quaternion.Euler(           // rotates speed arrow 
+            new Vector3(0f, 0f, abs(speed) * -90f * 0.02f));        // speed can be substituted for  (speed * 50 / speedLimit)
     }
 
     void OnTriggerEnter2D(Collider2D other)
