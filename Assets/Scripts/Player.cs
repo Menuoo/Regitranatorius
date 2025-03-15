@@ -1,10 +1,12 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
 using static Unity.Mathematics.math;
 using Unity.VisualScripting;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -15,10 +17,11 @@ public class Player : MonoBehaviour
     bool toggled = false;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight,headLight;
+    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText;
 
     BoxCollider2D collider;
     SpriteRenderer redX, brakeCircle,headLightCircle;
+    TMP_Text text;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
         redX = mistake.GetComponent<SpriteRenderer>();
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
+        text = speedText.GetComponent<TMP_Text>();
     }
 
 
@@ -52,7 +56,10 @@ public class Player : MonoBehaviour
         }
         else if (abs(speed) > 0f) //automatic decceleration
         {
-            speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
+            if (abs(speed) < 0.1f)
+                speed = 0;
+            else
+                speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
         }
 
         if (Input.GetKey("w")) // move up
@@ -74,7 +81,7 @@ public class Player : MonoBehaviour
         }
 
         // headlight mechanic
-        if (Input.GetKey("l")) // headlights
+        if (Input.GetKeyDown("l")) // headlights
         {
             toggled = !toggled; // doing this every frame looks and is retarded
             headLightCircle.enabled = toggled;
@@ -113,6 +120,7 @@ public class Player : MonoBehaviour
         }*/
 
 
+        text.SetText(String.Format("{0}", (int)abs(speed)));
         transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
         wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
         wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
@@ -120,9 +128,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("something");
         redX.enabled = true;
         mistake.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
-        
     }
 }
