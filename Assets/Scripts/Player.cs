@@ -13,14 +13,25 @@ public class Player : MonoBehaviour
     float acceleration = 50f;
     float speed, ySpeed;
     float speedLimit = 30f;
+    float originalSpeedLimit = 30f;
+    float nitrousSpeedLimit = 50f; // Maximum speed when nitrous is active
     bool isJumping = false;
     bool toggled = false;
 
+    // Nitrous system variables
+    float nitrousAmount = 100f; // Total nitrous available
+    float nitrousConsumptionRate = 25f; // How fast nitrous depletes
+    float nitrousRechargeRate = 5f; // How fast nitrous recharges
+    bool isNitrousActive = false;
+
+    // Add a visual indicator for nitrous
+    [SerializeField] GameObject nitrousEffect; // Visual effect
+
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow,honking;
+    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow, honking;
 
     BoxCollider2D collider;
-    SpriteRenderer redX, brakeCircle,headLightCircle, honkImage;
+    SpriteRenderer redX, brakeCircle, headLightCircle, honkImage;
     TMP_Text text;
 
     // Start is called before the first frame update
@@ -32,30 +43,33 @@ public class Player : MonoBehaviour
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
         text = speedText.GetComponent<TMP_Text>();
+
+        // Initialize with nitrous effect disabled
+        if (nitrousEffect != null)
+            nitrousEffect.SetActive(false);
     }
-
-
 
     // Update is called once per frame
     void Update()
     {
-        // all the basic movements:
+        // Handle nitrous activation
+        HandleNitrous();
 
+        // all the basic movements:
         if (Input.GetKey("d")) // move forward
         {
+            float accelerationMultiplier = isNitrousActive ? 3f : 2f; // Boost acceleration when nitrous is active
             if (speed < speedLimit)
-            speed += acceleration * Time.deltaTime * 2f;
+                speed += acceleration * Time.deltaTime * accelerationMultiplier;
             brakeCircle.enabled = false;
         }
         else if (Input.GetKey("a")) // move backward
         {
-            
             if (speed > -speedLimit)
-            speed -= acceleration * Time.deltaTime * 2f;
+                speed -= acceleration * Time.deltaTime * 2f;
             brakeCircle.enabled = true;
-
         }
-        else if (abs(speed) > 0f) //automatic decceleration
+        else if (abs(speed) > 0f) //automatic deceleration
         {
             if (abs(speed) < 0.1f)
                 speed = 0;
@@ -66,14 +80,14 @@ public class Player : MonoBehaviour
         if (Input.GetKey("w")) // move up
         {
             if (transform.position.y <= 0f) // limits y position
-            transform.Translate(new Vector2(0f, abs(speed*Time.deltaTime / 4f)));
+                transform.Translate(new Vector2(0f, abs(speed * Time.deltaTime / 4f)));
         }
         else if (Input.GetKey("s")) //move down
         {
             if (transform.position.y > -4.5f) // limits y position
-            transform.Translate(new Vector2(0f, -abs(speed*Time.deltaTime / 4f)));
-            
+                transform.Translate(new Vector2(0f, -abs(speed * Time.deltaTime / 4f)));
         }
+
         // honk mechanic
         if (Input.GetKeyDown("h"))
         {
@@ -84,10 +98,9 @@ public class Player : MonoBehaviour
         // headlight mechanic
         if (Input.GetKeyDown("l")) // headlights
         {
-            toggled = !toggled; // doing this every frame looks and is retarded (NOT ANYMORE)
+            toggled = !toggled;
             headLightCircle.enabled = toggled;
         }
-
 
         // jump mechanic
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping) // jump
@@ -96,6 +109,7 @@ public class Player : MonoBehaviour
             collider.enabled = false;
             ySpeed = 20f; // set the jumping speed (and height)
         }
+
         if (isJumping)
         {
             ySpeed -= acceleration * Time.deltaTime;
@@ -110,19 +124,14 @@ public class Player : MonoBehaviour
         }
         // end of jump mechanic
 
-
-
-        // nitrous mechanic
-
-        /*if (Input.GetKey("q")) // nitrous
+        // If speed exceeds current speed limit (which can happen when nitrous ends), gradually reduce it
+        if (abs(speed) > speedLimit)
         {
-            if(speed < speedLimit)
-            speed += acceleration * Time.deltaTime * 2f+25;
-        }*/
+            float decelerationRate = acceleration * 1.5f * Time.deltaTime;
+            speed = speed > 0 ? Mathf.Max(speed - decelerationRate, speedLimit) : Mathf.Min(speed + decelerationRate, -speedLimit);
+        }
 
-
-
-        transform.Translate(new Vector2(speed*Time.deltaTime, 0f)); // actually makes the car move
+        transform.Translate(new Vector2(speed * Time.deltaTime, 0f)); // actually makes the car move
         wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
         wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
 
@@ -131,9 +140,68 @@ public class Player : MonoBehaviour
             new Vector3(0f, 0f, abs(speed) * -90f * 0.02f));        // speed can be substituted for  (speed * 50 / speedLimit)
     }
 
+    void HandleNitrous()
+    {
+        // Toggle nitrous on/off with Q key press
+        if (Input.GetKeyDown(KeyCode.Q) && nitrousAmount > 0 && !isNitrousActive)
+        {
+            isNitrousActive = true;
+            speedLimit = nitrousSpeedLimit;
+
+            // Enable visual effect if available
+            if (nitrousEffect != null)
+                nitrousEffect.SetActive(true);
+
+        }
+        else if (Input.GetKeyUp(KeyCode.Q) && isNitrousActive)
+        {
+            DeactivateNitrous();
+        }
+
+        // Handle nitrous consumption while active
+        if (isNitrousActive)
+        {
+            nitrousAmount -= nitrousConsumptionRate * Time.deltaTime;
+
+
+            if (nitrousAmount <= 0)
+            {
+                nitrousAmount = 0;
+                DeactivateNitrous();
+            }
+        }
+        else
+        {
+            // Recharge nitrous when not in use
+            if (nitrousAmount < 100f)
+            {
+                nitrousAmount += nitrousRechargeRate * Time.deltaTime;
+                nitrousAmount = Mathf.Min(nitrousAmount, 100f);
+            }
+        }
+    }
+
+    // Separate function for deactivating nitrous
+    void DeactivateNitrous()
+    {
+        isNitrousActive = false;
+        speedLimit = originalSpeedLimit;
+
+        // Disable visual effect if available
+        if (nitrousEffect != null)
+            nitrousEffect.SetActive(false);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         redX.enabled = true;
         mistake.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+    }
+
+    // function to display nitrous amount on screen
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 200, 20), "Nitrous: " + nitrousAmount.ToString("F0") + "%");
+        GUI.Label(new Rect(10, 30, 200, 20), "Nitrous Active: " + (isNitrousActive ? "YES" : "NO"));
     }
 }
