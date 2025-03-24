@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     // Add a visual indicator for nitrous
     [SerializeField] GameObject nitrousEffect; // Visual effect
+    ParticleSystem exhaust;
 
     [SerializeField]
     GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow, honking;
@@ -43,10 +44,7 @@ public class Player : MonoBehaviour
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
         text = speedText.GetComponent<TMP_Text>();
-
-        // Initialize with nitrous effect disabled
-        if (nitrousEffect != null)
-            nitrousEffect.SetActive(false);
+        exhaust = nitrousEffect.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -142,6 +140,7 @@ public class Player : MonoBehaviour
 
     void HandleNitrous()
     {
+        var exhaustColors = exhaust.main;
         // Toggle nitrous on/off with Q key press
         if (Input.GetKeyDown(KeyCode.Q) && nitrousAmount > 0 && !isNitrousActive)
         {
@@ -149,9 +148,7 @@ public class Player : MonoBehaviour
             speedLimit = nitrousSpeedLimit;
 
             // Enable visual effect if available
-            if (nitrousEffect != null)
-                nitrousEffect.SetActive(true);
-
+            exhaustColors.startColor = new ParticleSystem.MinMaxGradient(Color.white, Color.cyan);
         }
         else if (Input.GetKeyUp(KeyCode.Q) && isNitrousActive)
         {
@@ -188,8 +185,9 @@ public class Player : MonoBehaviour
         speedLimit = originalSpeedLimit;
 
         // Disable visual effect if available
-        if (nitrousEffect != null)
-            nitrousEffect.SetActive(false);
+        var exhaustColors = exhaust.main;
+        exhaustColors.startColor = new ParticleSystem.MinMaxGradient(Color.white, Color.black);
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -201,7 +199,7 @@ public class Player : MonoBehaviour
     // function to display nitrous amount on screen
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 200, 20), "Nitrous: " + nitrousAmount.ToString("F0") + "%");
-        GUI.Label(new Rect(10, 30, 200, 20), "Nitrous Active: " + (isNitrousActive ? "YES" : "NO"));
+        //GUI.Label(new Rect(10, 10, 200, 20), "Nitrous: " + nitrousAmount.ToString("F0") + "%");
+        //GUI.Label(new Rect(10, 30, 200, 20), "Nitrous Active: " + (isNitrousActive ? "YES" : "NO"));
     }
 }
