@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
+using UnityEngine.UI;
 
 using static Unity.Mathematics.math;
 using Unity.VisualScripting;
@@ -14,14 +15,14 @@ public class Player : MonoBehaviour
     float speed, ySpeed;
     float speedLimit = 30f;
     float originalSpeedLimit = 30f;
-    float nitrousSpeedLimit = 50f; // Maximum speed when nitrous is active
+    float nitrousSpeedIncrease = 5f; // Maximum speed when nitrous is active
     bool isJumping = false;
     bool toggled = false;
 
     // Nitrous system variables
     float nitrousAmount = 100f; // Total nitrous available
-    float nitrousConsumptionRate = 25f; // How fast nitrous depletes
-    float nitrousRechargeRate = 5f; // How fast nitrous recharges
+    float nitrousConsumptionRate = 40f; // How fast nitrous depletes
+    float nitrousRechargeRate = 20f; // How fast nitrous recharges
     bool isNitrousActive = false;
 
     // Add a visual indicator for nitrous
@@ -29,11 +30,12 @@ public class Player : MonoBehaviour
     ParticleSystem exhaust;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow, honking;
+    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow, honking, nitrousSlider;
 
     BoxCollider2D collider;
     SpriteRenderer redX, brakeCircle, headLightCircle, honkImage;
     TMP_Text text;
+    Slider nitrousBar;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
         text = speedText.GetComponent<TMP_Text>();
         exhaust = nitrousEffect.GetComponent<ParticleSystem>();
+        nitrousBar = nitrousSlider.GetComponent<Slider>();
     }
 
     // Update is called once per frame
@@ -52,6 +55,7 @@ public class Player : MonoBehaviour
     {
         // Handle nitrous activation
         HandleNitrous();
+        nitrousBar.value = nitrousAmount; // slider
 
         // all the basic movements:
         if (Input.GetKey("d")) // move forward
@@ -91,6 +95,9 @@ public class Player : MonoBehaviour
         {
             toggled = !toggled;
             honkImage.enabled = toggled;
+
+            // kad ir kuris DEBILAS padare kad toggle naudotu tai ta toggle naudoja ir headlight sudas
+            // ir tipo gaunas taip kad tipo gali but toglines lempas ir dar syk reiktu paspaust kad toglint sita ir vice versa
         }
 
         // headlight mechanic
@@ -107,6 +114,25 @@ public class Player : MonoBehaviour
             collider.enabled = false;
             ySpeed = 20f; // set the jumping speed (and height)
         }
+
+        if (Input.GetKeyDown("p")) // parking gear toggle
+        {
+            toggled = !toggled;
+            if (toggled)
+            {
+                speedLimit = 10;
+                originalSpeedLimit = 10;
+            }
+            else
+            {
+                speedLimit = 30;
+                originalSpeedLimit = 30;
+            }
+
+            // labai brokuotas budas nusistatyt greiti tiesiog tarp 30 ir 10 keitinejas
+            // original irgi keicia nes nitrous taip veikia kad sugrizta ne i buvusi o nustatyta
+        }
+
 
         if (isJumping)
         {
@@ -145,7 +171,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && nitrousAmount > 0 && !isNitrousActive)
         {
             isNitrousActive = true;
-            speedLimit = nitrousSpeedLimit;
+            speedLimit = speedLimit + nitrousSpeedIncrease;
 
             // Enable visual effect if available
             exhaustColors.startColor = new ParticleSystem.MinMaxGradient(Color.white, Color.cyan);
@@ -159,7 +185,6 @@ public class Player : MonoBehaviour
         if (isNitrousActive)
         {
             nitrousAmount -= nitrousConsumptionRate * Time.deltaTime;
-
 
             if (nitrousAmount <= 0)
             {
