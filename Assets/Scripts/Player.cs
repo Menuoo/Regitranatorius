@@ -15,14 +15,14 @@ public class Player : MonoBehaviour
     float speed, ySpeed;
     float speedLimit = 30f;
     float originalSpeedLimit = 30f;
-    float nitrousSpeedIncrease = 5f; // Maximum speed when nitrous is active
+    float nitrousSpeedIncrease = 20f; // Maximum speed when nitrous is active
     bool isJumping = false;
     bool toggled = false;
 
     // Nitrous system variables
     float nitrousAmount = 100f; // Total nitrous available
     float nitrousConsumptionRate = 40f; // How fast nitrous depletes
-    float nitrousRechargeRate = 20f; // How fast nitrous recharges
+    float nitrousRechargeRate = 5f; // How fast nitrous recharges
     bool isNitrousActive = false;
 
     // Add a visual indicator for nitrous
@@ -30,11 +30,11 @@ public class Player : MonoBehaviour
     ParticleSystem exhaust;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText, speedArrow, honking, nitrousSlider;
+    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText,gearText , speedArrow, honking, nitrousSlider;
 
     BoxCollider2D collider;
     SpriteRenderer redX, brakeCircle, headLightCircle, honkImage;
-    TMP_Text text;
+    TMP_Text text, gearChangeText;
     Slider nitrousBar;
 
     // Start is called before the first frame update
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
         text = speedText.GetComponent<TMP_Text>();
+        gearChangeText= gearText.GetComponent<TMP_Text>();
         exhaust = nitrousEffect.GetComponent<ParticleSystem>();
         nitrousBar = nitrousSlider.GetComponent<Slider>();
     }
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
         {
             if (transform.position.y > -4.5f) // limits y position
                 transform.Translate(new Vector2(0f, -abs(speed * Time.deltaTime / 4f)));
+            
         }
 
         // honk mechanic
@@ -120,11 +122,13 @@ public class Player : MonoBehaviour
             toggled = !toggled;
             if (toggled)
             {
+                gearChangeText.SetText(String.Format("P"));
                 speedLimit = 10;
                 originalSpeedLimit = 10;
             }
             else
             {
+                gearChangeText.SetText(String.Format("D"));
                 speedLimit = 30;
                 originalSpeedLimit = 30;
             }

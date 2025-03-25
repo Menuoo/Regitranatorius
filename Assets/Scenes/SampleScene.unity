@@ -410,7 +410,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.1509, y: 0.115}
+  m_AnchoredPosition: {x: 0.507, y: 0.115}
   m_SizeDelta: {x: 106.7403, y: 58.3115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &312970673
@@ -460,8 +460,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6442,6 +6442,7 @@ MonoBehaviour:
   brakeLight: {fileID: 1264055893}
   headLight: {fileID: 336844099}
   speedText: {fileID: 312970671}
+  gearText: {fileID: 1490803815}
   speedArrow: {fileID: 1845872350}
   honking: {fileID: 451876769}
   nitrousSlider: {fileID: 1665795490}
@@ -6772,7 +6773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.158, y: -0.073}
+  m_AnchoredPosition: {x: 0.657, y: 0.484}
   m_SizeDelta: {x: 220.83, y: 80.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1490803817
@@ -6795,7 +6796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '"Speed"'
+  m_text: D
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd3e2804d3697664ab350b863af46379, type: 2}
   m_sharedMaterial: {fileID: -5115421644300237641, guid: cd3e2804d3697664ab350b863af46379, type: 2}
@@ -6822,8 +6823,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6945,7 +6946,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 29
+  m_SortingOrder: 19
   m_Sprite: {fileID: 21300000, guid: f1fe192d469aa734fb3dd27775cd6b1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
