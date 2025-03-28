@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Regulator : MonoBehaviour
 {
-    [SerializeField]
-    float cycleTime = 5f; // Time for one complete cycle
 
     [SerializeField]
-    float activeTime = 2.5f; // Time the regulator is active within the cycle
+    float cycleTime = 2.5f; // Time for one half of the cycle
 
     [SerializeField]
     string playerTag = "Player";
@@ -17,7 +15,8 @@ public class Regulator : MonoBehaviour
     BoxCollider2D regulatorZone;
 
     float timePassed = 0f;
-    bool isActive = false;
+    [SerializeField]
+    float offset = 0.45f;
 
     void Start()
     {
@@ -27,7 +26,6 @@ public class Regulator : MonoBehaviour
             regulatorZone.isTrigger = true;
 
         timePassed = 0f;
-        DeactivateRegulator();
     }
 
     void Update()
@@ -35,42 +33,11 @@ public class Regulator : MonoBehaviour
         timePassed += Time.deltaTime;
 
         // Check if we should switch states
-        if (isActive && timePassed > activeTime)
-        {
-            DeactivateRegulator();
-        }
-        else if (!isActive && timePassed > cycleTime - activeTime)
-        {
-            ActivateRegulator();
-        }
-
-        // Reset timer when cycle completes
         if (timePassed > cycleTime)
         {
             timePassed = 0f;
-            ActivateRegulator();
-        }
-    }
-
-    void ActivateRegulator()
-    {
-        isActive = true;
-
-        // Enable collider for regulation zone
-        if (regulatorZone != null)
-        {
-            regulatorZone.enabled = true;
-        }
-    }
-
-    void DeactivateRegulator()
-    {
-        isActive = false;
-
-        // Disable collider for regulation zone
-        if (regulatorZone != null)
-        {
-            regulatorZone.enabled = false;
+            regulatorZone.offset += new Vector2(0, offset);
+            offset = -offset;
         }
     }
 

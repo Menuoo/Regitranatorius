@@ -11,6 +11,11 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    bool alive;
+    [SerializeField]
+    int lives = 10;
+    float timer = 0.3f, timerCnt;
+
     float acceleration = 50f;
     float speed, ySpeed;
     float speedLimit = 30f;
@@ -30,18 +35,18 @@ public class Player : MonoBehaviour
     ParticleSystem exhaust;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, mistake, brakeLight, headLight, speedText,gearText , speedArrow, honking, nitrousSlider;
+    GameObject wheel1, wheel2, body, brakeLight, headLight, speedText, gearText, livesObj, speedArrow, honking, nitrousSlider;
 
     BoxCollider2D collider;
-    SpriteRenderer redX, brakeCircle, headLightCircle, honkImage;
-    TMP_Text text, gearChangeText;
+    SpriteRenderer redX, brakeCircle, headLightCircle, honkImage, bodySprite;
+    TMP_Text text, gearChangeText, livesText;
     Slider nitrousBar;
 
     // Start is called before the first frame update
     void Start()
     {
+        bodySprite = body.GetComponent<SpriteRenderer>();
         collider = gameObject.GetComponent<BoxCollider2D>();
-        redX = mistake.GetComponent<SpriteRenderer>();
         honkImage = honking.GetComponent<SpriteRenderer>();
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
@@ -49,14 +54,63 @@ public class Player : MonoBehaviour
         gearChangeText= gearText.GetComponent<TMP_Text>();
         exhaust = nitrousEffect.GetComponent<ParticleSystem>();
         nitrousBar = nitrousSlider.GetComponent<Slider>();
+        livesText = livesObj.GetComponent<TMP_Text>();
+
+        alive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (alive) 
+            PlayerControls();
+
+        if (lives <= 0)
+        {
+            Die();
+            if (abs(speed) < 0.1f)
+                speed = 0;
+            else
+                speed = speed > 0f ? speed - acceleration / 2 * Time.deltaTime : speed + acceleration / 2 * Time.deltaTime;
+        }
+
+        nitrousBar.value = nitrousAmount; // slider
+        livesText.SetText(String.Format("x{0}", max(0, lives)));
+
+        if (isJumping)
+        {
+            ySpeed -= acceleration * Time.deltaTime;
+            body.transform.Translate(new Vector2(0f, ySpeed * Time.deltaTime));
+
+            if (body.transform.localPosition.y <= 0f)
+            {
+                body.transform.localPosition = new Vector3(0f, 0f, 0f);
+                isJumping = false;
+                collider.enabled = true;
+            }
+        }
+        // end of jump mechanic
+
+        // If speed exceeds current speed limit (which can happen when nitrous ends), gradually reduce it
+        if (abs(speed) > speedLimit)
+        {
+            float decelerationRate = acceleration * 1.5f * Time.deltaTime;
+            speed = speed > 0 ? Mathf.Max(speed - decelerationRate, speedLimit) : Mathf.Min(speed + decelerationRate, -speedLimit);
+        }
+
+        transform.Translate(new Vector2(speed * Time.deltaTime, 0f)); // actually makes the car move
+        wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
+        wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
+
+        text.SetText(String.Format("{0} km/h", (int)abs(speed)));        // changes display speed
+        speedArrow.transform.rotation = Quaternion.Euler(           // rotates speed arrow 
+            new Vector3(0f, 0f, abs(speed) * -90f * 0.02f));        // speed can be substituted for  (speed * 50 / speedLimit)
+    }
+
+    void PlayerControls() 
+    {
         // Handle nitrous activation
         HandleNitrous();
-        nitrousBar.value = nitrousAmount; // slider
 
         // all the basic movements:
         if (Input.GetKey("d")) // move forward
@@ -89,24 +143,19 @@ public class Player : MonoBehaviour
         {
             if (transform.position.y > -4.5f) // limits y position
                 transform.Translate(new Vector2(0f, -abs(speed * Time.deltaTime / 4f)));
-            
+
         }
 
         // honk mechanic
         if (Input.GetKeyDown("h"))
         {
-            toggled = !toggled;
-            honkImage.enabled = toggled;
-
-            // kad ir kuris DEBILAS padare kad toggle naudotu tai ta toggle naudoja ir headlight sudas
-            // ir tipo gaunas taip kad tipo gali but toglines lempas ir dar syk reiktu paspaust kad toglint sita ir vice versa
+            honkImage.enabled = honkImage.enabled ? false : true;
         }
 
         // headlight mechanic
         if (Input.GetKeyDown("l")) // headlights
         {
-            toggled = !toggled;
-            headLightCircle.enabled = toggled;
+            headLightCircle.enabled = headLightCircle.enabled ? false : true;
         }
 
         // jump mechanic
@@ -138,34 +187,6 @@ public class Player : MonoBehaviour
         }
 
 
-        if (isJumping)
-        {
-            ySpeed -= acceleration * Time.deltaTime;
-            body.transform.Translate(new Vector2(0f, ySpeed * Time.deltaTime));
-
-            if (body.transform.localPosition.y <= 0f)
-            {
-                body.transform.localPosition = new Vector3(0f, 0f, 0f);
-                isJumping = false;
-                collider.enabled = true;
-            }
-        }
-        // end of jump mechanic
-
-        // If speed exceeds current speed limit (which can happen when nitrous ends), gradually reduce it
-        if (abs(speed) > speedLimit)
-        {
-            float decelerationRate = acceleration * 1.5f * Time.deltaTime;
-            speed = speed > 0 ? Mathf.Max(speed - decelerationRate, speedLimit) : Mathf.Min(speed + decelerationRate, -speedLimit);
-        }
-
-        transform.Translate(new Vector2(speed * Time.deltaTime, 0f)); // actually makes the car move
-        wheel1.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel1
-        wheel2.transform.Rotate(new Vector3(0f, 0f, -speed / 2f));  // rotates wheel2
-
-        text.SetText(String.Format("{0} km/h", (int)abs(speed)));        // changes display speed
-        speedArrow.transform.rotation = Quaternion.Euler(           // rotates speed arrow 
-            new Vector3(0f, 0f, abs(speed) * -90f * 0.02f));        // speed can be substituted for  (speed * 50 / speedLimit)
     }
 
     void HandleNitrous()
@@ -221,14 +242,23 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        redX.enabled = true;
-        mistake.transform.localScale += new Vector3(0.2f, 0.2f, 0.2f);
+        lives--;
     }
 
-    // function to display nitrous amount on screen
-    void OnGUI()
+    void Die()
     {
-        //GUI.Label(new Rect(10, 10, 200, 20), "Nitrous: " + nitrousAmount.ToString("F0") + "%");
-        //GUI.Label(new Rect(10, 30, 200, 20), "Nitrous Active: " + (isNitrousActive ? "YES" : "NO"));
+        alive = false;
+        bodySprite.color = new Color(0.1f, 0.1f, 0.1f, 1f);
+        body.transform.localScale = new Vector3(1f, -1f , 1f);
+        wheel1.SetActive(false); // might delete this idk
+
+        exhaust.Stop();
+
+        timerCnt += Time.deltaTime;
+        if (timerCnt >= timer)
+        {
+            brakeCircle.enabled = brakeCircle.enabled ? false : true;
+            timerCnt = 0;
+        }
     }
 }
