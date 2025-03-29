@@ -6436,7 +6436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddc95e7da937ae49a22e568f2d89d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 5
+  lives: 10
   nitrousEffect: {fileID: 1278492059}
   wheel1: {fileID: 160016051}
   wheel2: {fileID: 685599072}
