@@ -8,16 +8,16 @@ public class Stoplight : MonoBehaviour
     float update_time;
 
     [SerializeField]
-    GameObject light;
+    GameObject lightStop;
 
-    BoxCollider2D collider;
+    BoxCollider2D lightCollider;
     SpriteRenderer lightCircle;
     
     // Start is called before the first frame update
     void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
-        lightCircle = light.GetComponent<SpriteRenderer>();
+        lightCollider = GetComponent<BoxCollider2D>();
+        lightCircle = lightStop.GetComponent<SpriteRenderer>();
         timePassed = update_time;
     }
 
@@ -30,15 +30,15 @@ public class Stoplight : MonoBehaviour
         if (timePassed > update_time * 2)
         {
             lightCircle.color = new Color(0.9f, 0f, 0f, 0.4f);
-            light.transform.localPosition = new Vector3(0f, 0.1f, 0f);
-            collider.enabled = true;
+            lightStop.transform.localPosition = new Vector3(0f, 0.1f, 0f);
+            lightCollider.enabled = true;
             timePassed = 0f;
         }
         else if (timePassed>update_time)
         {
             lightCircle.color = new Color(0f, 0.9f, 0f, 0.4f);
-            light.transform.localPosition = Vector3.zero;
-            collider.enabled = false;
+            lightStop.transform.localPosition = Vector3.zero;
+            lightCollider.enabled = false;
         }
     }
 }

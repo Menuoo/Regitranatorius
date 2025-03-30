@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject wheel1, wheel2, body, brakeLight, headLight, speedText, gearText, livesObj, speedArrow, honking, nitrousSlider;
 
-    BoxCollider2D collider;
+    BoxCollider2D carCollider;
     SpriteRenderer redX, brakeCircle, headLightCircle, honkImage, bodySprite;
     TMP_Text text, gearChangeText, livesText;
     Slider nitrousBar;
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         bodySprite = body.GetComponent<SpriteRenderer>();
-        collider = gameObject.GetComponent<BoxCollider2D>();
+        carCollider = gameObject.GetComponent<BoxCollider2D>();
         honkImage = honking.GetComponent<SpriteRenderer>();
         brakeCircle = brakeLight.GetComponent<SpriteRenderer>();
         headLightCircle = headLight.GetComponent<SpriteRenderer>();
@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
         livesText = livesObj.GetComponent<TMP_Text>();
 
         alive = true;
+        bodySprite.color = CarColour.getColour();
     }
 
     // Update is called once per frame
@@ -86,7 +87,7 @@ public class Player : MonoBehaviour
             {
                 body.transform.localPosition = new Vector3(0f, 0f, 0f);
                 isJumping = false;
-                collider.enabled = true;
+                carCollider.enabled = true;
             }
         }
         // end of jump mechanic
@@ -162,7 +163,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping) // jump
         {
             isJumping = true;
-            collider.enabled = false;
+            carCollider.enabled = false;
             ySpeed = 20f; // set the jumping speed (and height)
         }
 
