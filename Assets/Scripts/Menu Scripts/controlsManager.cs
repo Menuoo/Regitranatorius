@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using TMPro;
+using System.Text.RegularExpressions;
 
 public class controlsManager : MonoBehaviour
 {
@@ -31,7 +32,16 @@ public class controlsManager : MonoBehaviour
             controls.Add("gear", KeyCode.P);
             done = true;
         }
-        
+
+        foreach (Button button in buttons)
+        {
+            TextMeshProUGUI texts = button.GetComponentsInChildren<TextMeshProUGUI>()[0];
+
+            string str = button.name;
+            str = Regex.Replace(str, "Button", "");
+
+            texts.text = controls[str].ToString();
+        }
 
     }
 
@@ -54,8 +64,7 @@ public class controlsManager : MonoBehaviour
                     if(button.name == control+"Button")
                     {
                         //button.GetComponent<TextMeshProUGUI>()[0].text = key.ToString();
-                        button.GetComponentsInChildren<TextMeshProUGUI>()[0].text = key.ToString();
-                        
+                        button.GetComponentsInChildren<TextMeshProUGUI>()[0].text = key.ToString(); 
                     }
                 }
                 break;
