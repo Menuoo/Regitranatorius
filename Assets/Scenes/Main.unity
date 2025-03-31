@@ -1355,6 +1355,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   car: {fileID: 1499431751}
+  wheel1: {fileID: 876959618}
+  wheel2: {fileID: 535123383}
 --- !u!1 &1520353868
 GameObject:
   m_ObjectHideFlags: 0

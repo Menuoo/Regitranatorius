@@ -9,8 +9,7 @@ public class CarColour : MonoBehaviour
     int clr = 8;
 
     [SerializeField]
-    GameObject car;
-
+    GameObject car, wheel1, wheel2;
     SpriteRenderer carSprite;
 
     private void Start()
@@ -19,7 +18,11 @@ public class CarColour : MonoBehaviour
         changeColour();
     }
 
-    
+    private void Update()
+    {
+        wheel1.transform.Rotate(new Vector3(0f, 0f, -10 / 2f));  // rotates wheel1
+        wheel2.transform.Rotate(new Vector3(0f, 0f, -10 / 2f));  // rotates wheel2
+    }
 
     public void changeColour()
     {

@@ -42,6 +42,10 @@ public class Player : MonoBehaviour
     TMP_Text text, gearChangeText, livesText;
     Slider nitrousBar;
 
+    Dictionary<string, KeyCode> keyboard;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +62,8 @@ public class Player : MonoBehaviour
 
         alive = true;
         bodySprite.color = CarColour.getColour();
+
+        keyboard = controlsManager.controls;
     }
 
     // Update is called once per frame
@@ -114,14 +120,14 @@ public class Player : MonoBehaviour
         HandleNitrous();
 
         // all the basic movements:
-        if (Input.GetKey("d")) // move forward
+        if (Input.GetKey(keyboard["forward"])) // move forward
         {
             float accelerationMultiplier = isNitrousActive ? 3f : 2f; // Boost acceleration when nitrous is active
             if (speed < speedLimit)
                 speed += acceleration * Time.deltaTime * accelerationMultiplier;
             brakeCircle.enabled = false;
         }
-        else if (Input.GetKey("a")) // move backward
+        else if (Input.GetKey(keyboard["backward"])) // move backward
         {
             if (speed > -speedLimit)
                 speed -= acceleration * Time.deltaTime * 2f;
@@ -135,12 +141,12 @@ public class Player : MonoBehaviour
                 speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
         }
 
-        if (Input.GetKey("w")) // move up
+        if (Input.GetKey(keyboard["upward"])) // move up
         {
             if (transform.position.y <= 0f) // limits y position
                 transform.Translate(new Vector2(0f, abs(speed * Time.deltaTime / 4f)));
         }
-        else if (Input.GetKey("s")) //move down
+        else if (Input.GetKey(keyboard["downward"])) //move down
         {
             if (transform.position.y > -4.5f) // limits y position
                 transform.Translate(new Vector2(0f, -abs(speed * Time.deltaTime / 4f)));
@@ -148,26 +154,27 @@ public class Player : MonoBehaviour
         }
 
         // honk mechanic
-        if (Input.GetKeyDown("h"))
+        if (Input.GetKeyDown(keyboard["honk"]))
         {
             honkImage.enabled = honkImage.enabled ? false : true;
         }
 
         // headlight mechanic
-        if (Input.GetKeyDown("l")) // headlights
+        if (Input.GetKeyDown(keyboard["headlight"])) // headlights
         {
             headLightCircle.enabled = headLightCircle.enabled ? false : true;
         }
 
         // jump mechanic
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping) // jump
+        if (Input.GetKeyDown(keyboard["jump"]) && !isJumping) // jump
         {
             isJumping = true;
             carCollider.enabled = false;
             ySpeed = 20f; // set the jumping speed (and height)
         }
 
-        if (Input.GetKeyDown("p")) // parking gear toggle
+        // parking gear toggle
+        if (Input.GetKeyDown(keyboard["gear"])) 
         {
             toggled = !toggled;
             if (toggled)
@@ -194,7 +201,7 @@ public class Player : MonoBehaviour
     {
         var exhaustColors = exhaust.main;
         // Toggle nitrous on/off with Q key press
-        if (Input.GetKeyDown(KeyCode.Q) && nitrousAmount > 0 && !isNitrousActive)
+        if (Input.GetKeyDown(keyboard["nitrous"]) && nitrousAmount > 0 && !isNitrousActive)
         {
             isNitrousActive = true;
             speedLimit = speedLimit + nitrousSpeedIncrease;
@@ -202,7 +209,7 @@ public class Player : MonoBehaviour
             // Enable visual effect if available
             exhaustColors.startColor = new ParticleSystem.MinMaxGradient(Color.white, Color.cyan);
         }
-        else if (Input.GetKeyUp(KeyCode.Q) && isNitrousActive)
+        else if (Input.GetKeyUp(keyboard["nitrous"]) && isNitrousActive)
         {
             DeactivateNitrous();
         }
