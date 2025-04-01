@@ -2,47 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Regulator : MonoBehaviour
+public class SpeedLimit : MonoBehaviour
 {
+    public float limit;
+    public TextMesh limitText;
+    public string playerTag = "Player";
 
-    [SerializeField]
-    float cycleTime = 2.5f; // Time for one half of the cycle
+    bool isPunished = false;
 
-    [SerializeField]
-    string playerTag = "Player";
 
-    // Components
-    BoxCollider2D regulatorZone;
-
-    float timePassed = 0f;
-    [SerializeField]
-    float offset = 0.45f;
-
+    // Start is called before the first frame update
     void Start()
     {
-        regulatorZone = GetComponent<BoxCollider2D>();
-
-        if (regulatorZone != null)
-            regulatorZone.isTrigger = true;
-
-        timePassed = 0f;
+        limitText.text = limit.ToString();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        timePassed += Time.deltaTime;
-
-        // Check if we should switch states
-        if (timePassed > cycleTime)
+        
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(playerTag))
         {
-            timePassed = 0f;
-            regulatorZone.offset += new Vector2(0, offset);
-            offset = -offset;
+            HandlePlayerRegulation(other, true);
         }
     }
-
-    // Only affect the player when they enter the trigger zone
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
@@ -58,24 +45,23 @@ public class Regulator : MonoBehaviour
             HandlePlayerRegulation(other, false);
         }
     }
-
     // Handle the actual regulation effect on the player
     void HandlePlayerRegulation(Collider2D playerCollider, bool entering)
     {
         if (entering)
         {
-            Debug.Log("Player entered regulation zone");
+            Debug.Log("enetered speed limit");
 
             Player playerComponent = playerCollider.GetComponent<Player>();
-            if (playerComponent != null)
+            if (playerComponent != null && playerComponent.speed >limit & isPunished != true)
             {
-                //regulation effect here
+                isPunished = true;
                 playerComponent.lives--;
+                Debug.Log("ABOVE SPEED LIMIT");
             }
         }
         else
         {
-            Debug.Log("Player exited regulation zone");
 
             Player playerComponent = playerCollider.GetComponent<Player>();
             if (playerComponent != null)

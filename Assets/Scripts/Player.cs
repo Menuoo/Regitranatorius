@@ -13,11 +13,11 @@ public class Player : MonoBehaviour
 {
     bool alive;
     [SerializeField]
-    int lives = 10;
+    public int lives = 10;
     float timer = 0.3f, timerCnt;
 
     float acceleration = 50f;
-    float speed, ySpeed;
+    public float speed, ySpeed;
     float speedLimit = 30f;
     float originalSpeedLimit = 30f;
     float nitrousSpeedIncrease = 20f; // Maximum speed when nitrous is active
@@ -248,10 +248,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        lives--;
-    }
+    
 
     void Die()
     {
