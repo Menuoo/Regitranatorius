@@ -64,9 +64,12 @@ public class controlsManager : MonoBehaviour
                     if(button.name == control+"Button")
                     {
                         //button.GetComponent<TextMeshProUGUI>()[0].text = key.ToString();
-                        button.GetComponentsInChildren<TextMeshProUGUI>()[0].text = key.ToString(); 
+                        button.GetComponentsInChildren<TextMeshProUGUI>()[0].text = key.ToString();
+                        button.interactable = false;
+                        button.interactable = true;
                     }
                 }
+
                 break;
             }
         }
