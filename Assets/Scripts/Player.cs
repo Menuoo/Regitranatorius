@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
     float timer = 0.3f, timerCnt;
 
     float acceleration = 50f;
-    public float speed, ySpeed;
+    float speed;
+    float ySpeed;
     float speedLimit = 30f;
     float originalSpeedLimit = 30f;
     float nitrousSpeedIncrease = 20f; // Maximum speed when nitrous is active
@@ -28,14 +29,16 @@ public class Player : MonoBehaviour
     float nitrousAmount = 100f; // Total nitrous available
     float nitrousConsumptionRate = 40f; // How fast nitrous depletes
     float nitrousRechargeRate = 5f; // How fast nitrous recharges
-    bool isNitrousActive = false;
+    bool isNitrousActive = false, initialDeath = true;
 
     // Add a visual indicator for nitrous
     [SerializeField] GameObject nitrousEffect; // Visual effect
     ParticleSystem exhaust;
 
     [SerializeField]
-    GameObject wheel1, wheel2, body, brakeLight, headLight, speedText, gearText, livesObj, speedArrow, honking, nitrousSlider;
+    GameObject wheel1, wheel2, body, brakeLight, headLight, speedText,
+        gearText, livesObj, speedArrow, honking, nitrousSlider, explosion,
+        explosionParticles;
 
     BoxCollider2D carCollider;
     SpriteRenderer redX, brakeCircle, headLightCircle, honkImage, bodySprite;
@@ -63,6 +66,8 @@ public class Player : MonoBehaviour
         alive = true;
         bodySprite.color = CarColour.getColour();
 
+        explosion.SetActive(false);
+
         keyboard = controlsManager.controls;
     }
 
@@ -78,7 +83,8 @@ public class Player : MonoBehaviour
             if (abs(speed) < 0.1f)
                 speed = 0;
             else
-                speed = speed > 0f ? speed - acceleration / 2 * Time.deltaTime : speed + acceleration / 2 * Time.deltaTime;
+                speed = speed > 0f ? speed - acceleration / 2 * Time.deltaTime :
+                    speed + acceleration / 2 * Time.deltaTime;
         }
 
         nitrousBar.value = nitrousAmount; // slider
@@ -256,9 +262,21 @@ public class Player : MonoBehaviour
         bodySprite.color = new Color(0.1f, 0.1f, 0.1f, 1f);
         body.transform.localScale = new Vector3(1f, -1f , 1f);
         wheel1.SetActive(false); // might delete this idk
-
         exhaust.Stop();
+        explosionParticles.SetActive(true);
 
+        if (initialDeath)
+        {
+            var boom = explosion.GetComponent<Animator>();
+            explosion.SetActive(true);
+            boom.Play("explosion");
+
+            if (boom.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+            {
+                initialDeath = false;
+                explosion.SetActive(false);
+            }
+        }
         timerCnt += Time.deltaTime;
         if (timerCnt >= timer)
         {
@@ -266,4 +284,6 @@ public class Player : MonoBehaviour
             timerCnt = 0;
         }
     }
+
+    public float CheckSpeed() => speed;
 }

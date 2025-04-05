@@ -18,6 +18,13 @@ public class Regulator : MonoBehaviour
     [SerializeField]
     float offset = 0.45f;
 
+    SpriteRenderer sprites;
+
+    [SerializeField]
+    Sprite sprite1, sprite2;
+
+    bool left = true;
+
     void Start()
     {
         regulatorZone = GetComponent<BoxCollider2D>();
@@ -25,6 +32,7 @@ public class Regulator : MonoBehaviour
         if (regulatorZone != null)
             regulatorZone.isTrigger = true;
 
+        sprites = GetComponent<SpriteRenderer>();
         timePassed = 0f;
     }
 
@@ -37,6 +45,9 @@ public class Regulator : MonoBehaviour
         {
             timePassed = 0f;
             regulatorZone.offset += new Vector2(0, offset);
+            left = !left;
+
+            sprites.sprite = left ? sprite2 : sprite1;
             offset = -offset;
         }
     }
