@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,17 @@ public class Stoplight : MonoBehaviour
     BoxCollider2D lightCollider;
     SpriteRenderer lightCircle;
     
+    //Dictionary<string, string[]> name = new Dictionary<string, string[]>();
+
     // Start is called before the first frame update
     void Start()
     {
         lightCollider = GetComponent<BoxCollider2D>();
         lightCircle = lightStop.GetComponent<SpriteRenderer>();
         timePassed = update_time;
+
+        //name.Add("pav", new string[] { "as", "tu" });
+        //print(name["pav"][0]);
     }
 
 
