@@ -26,9 +26,9 @@ public class Player : MonoBehaviour
     bool toggled = false;
 
     // Nitrous system variables
-    float nitrousAmount = 100f; // Total nitrous available
+    float nitrousAmount = 100f, jumpAmount = 100f; // Total nitrous available
     float nitrousConsumptionRate = 40f; // How fast nitrous depletes
-    float nitrousRechargeRate = 5f; // How fast nitrous recharges
+    float nitrousRechargeRate = 5f, jumpRechargeRate = 20f; // How fast nitrous recharges
     bool isNitrousActive = false, initialDeath = true;
 
     // Add a visual indicator for nitrous
@@ -38,12 +38,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject wheel1, wheel2, body, brakeLight, headLight, speedText,
         gearText, livesObj, speedArrow, honking, nitrousSlider, explosion,
-        explosionParticles;
+        explosionParticles, jumpSlider;
 
     BoxCollider2D carCollider;
     SpriteRenderer redX, brakeCircle, headLightCircle, honkImage, bodySprite;
     TMP_Text text, gearChangeText, livesText;
-    Slider nitrousBar;
+    Slider nitrousBar, jumpBar;
 
     Dictionary<string, KeyCode> keyboard;
 
@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
         gearChangeText= gearText.GetComponent<TMP_Text>();
         exhaust = nitrousEffect.GetComponent<ParticleSystem>();
         nitrousBar = nitrousSlider.GetComponent<Slider>();
+        jumpBar = jumpSlider.GetComponent<Slider>();
         livesText = livesObj.GetComponent<TMP_Text>();
 
         alive = true;
@@ -88,7 +89,13 @@ public class Player : MonoBehaviour
         }
 
         nitrousBar.value = nitrousAmount; // slider
-        livesText.SetText(String.Format("x{0}", max(0, lives)));
+        jumpBar.value = jumpAmount;
+        if (jumpAmount < 100f)
+        { 
+            jumpAmount += jumpRechargeRate * Time.deltaTime;
+        }
+
+            livesText.SetText(String.Format("x{0}", max(0, lives)));
 
         if (isJumping)
         {
@@ -172,10 +179,11 @@ public class Player : MonoBehaviour
         }
 
         // jump mechanic
-        if (Input.GetKeyDown(keyboard["jump"]) && !isJumping) // jump
+        if (Input.GetKeyDown(keyboard["jump"]) && !isJumping && jumpAmount >= 100f) // jump
         {
             isJumping = true;
             carCollider.enabled = false;
+            jumpAmount = 0f;
             ySpeed = 20f; // set the jumping speed (and height)
         }
 
