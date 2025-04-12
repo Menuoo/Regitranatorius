@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   update_time: 5
-  light: {fileID: 3336021881264873184}
+  lightStop: {fileID: 3336021881264873184}
 --- !u!212 &8493858204337631858
 SpriteRenderer:
   m_ObjectHideFlags: 0
