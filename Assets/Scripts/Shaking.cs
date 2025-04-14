@@ -17,7 +17,6 @@ public class Shaking : MonoBehaviour
         {
             Vector2 offset = Random.insideUnitCircle * (Time.deltaTime * shakeAmount);
             transform.position = new Vector2(transform.position.x, transform.position.y + offset.y);
-
         }
     }
 }

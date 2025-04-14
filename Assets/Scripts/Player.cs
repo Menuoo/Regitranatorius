@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
             jumpAmount += jumpRechargeRate * Time.deltaTime;
         }
 
-            livesText.SetText(String.Format("x{0}", max(0, lives)));
+        livesText.SetText(String.Format("x{0}", max(0, lives)));
 
         if (isJumping)
         {
