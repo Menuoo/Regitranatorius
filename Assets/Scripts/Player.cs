@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     bool isJumping = false;
     bool toggled = false;
 
+    public AudioSource soundHonk;
+
     // Nitrous system variables
     float nitrousAmount = 100f, jumpAmount = 100f; // Total nitrous available
     float nitrousConsumptionRate = 40f; // How fast nitrous depletes
@@ -169,7 +171,8 @@ public class Player : MonoBehaviour
         // honk mechanic
         if (Input.GetKeyDown(keyboard["honk"]))
         {
-            honkImage.enabled = honkImage.enabled ? false : true;
+            //honkImage.enabled = honkImage.enabled ? false : true;
+            soundHonk.Play();
         }
 
         // headlight mechanic
