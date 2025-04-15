@@ -24,6 +24,8 @@ public class NPC_Car : MonoBehaviour
 
     Vector3 carPos;
 
+    public string playerTag = "Player";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,5 +75,33 @@ public class NPC_Car : MonoBehaviour
             transform.position = startPos;
         }
         carPos = transform.position;
-    }    
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            HandlePlayerRegulation(other, true);
+        }
+    }
+    void HandlePlayerRegulation(Collider2D playerCollider, bool entering)
+    {
+        if (entering)
+        {
+            Debug.Log("enetered speed limit");
+
+            Player playerComponent = playerCollider.GetComponent<Player>();
+            playerComponent.speed = 0;
+            playerComponent.lives--;
+        }
+        else
+        {
+
+            Player playerComponent = playerCollider.GetComponent<Player>();
+            if (playerComponent != null)
+            {
+                // regulation effect here
+            }
+        }
+    }
 }

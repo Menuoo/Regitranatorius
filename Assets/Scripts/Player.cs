@@ -16,11 +16,11 @@ public class Player : MonoBehaviour
     public int lives = 10;
     float timer = 0.3f, timerCnt;
 
-    float acceleration = 50f;
-    float speed;
+    float acceleration = 30f;
+    public float speed;
     float ySpeed;
-    float speedLimit = 30f;
-    float originalSpeedLimit = 30f;
+    float speedLimit = 15f;
+    float originalSpeedLimit = 15f;
     float nitrousSpeedIncrease = 20f; // Maximum speed when nitrous is active
     bool isJumping = false;
     bool toggled = false;
@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
             isJumping = true;
             carCollider.enabled = false;
             jumpAmount = 0f;
-            ySpeed = 20f; // set the jumping speed (and height)
+            ySpeed = 15f; // set the jumping speed (and height)
         }
 
         // parking gear toggle
@@ -197,14 +197,14 @@ public class Player : MonoBehaviour
             if (toggled)
             {
                 gearChangeText.SetText(String.Format("P"));
-                speedLimit = 10;
-                originalSpeedLimit = 10;
+                speedLimit = 5;
+                originalSpeedLimit = 5;
             }
             else
             {
                 gearChangeText.SetText(String.Format("D"));
-                speedLimit = 30;
-                originalSpeedLimit = 30;
+                speedLimit = 15;
+                originalSpeedLimit = 15;
             }
 
             // labai brokuotas budas nusistatyt greiti tiesiog tarp 30 ir 10 keitinejas

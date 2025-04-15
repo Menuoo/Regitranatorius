@@ -13,7 +13,9 @@ public class Stoplight : MonoBehaviour
 
     BoxCollider2D lightCollider;
     SpriteRenderer lightCircle;
-    
+
+    public string playerTag = "Player";
+
     //Dictionary<string, string[]> name = new Dictionary<string, string[]>();
 
     // Start is called before the first frame update
@@ -45,6 +47,34 @@ public class Stoplight : MonoBehaviour
             lightCircle.color = new Color(0f, 0.9f, 0f, 0.4f);
             lightStop.transform.localPosition = Vector3.zero;
             lightCollider.enabled = false;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            HandlePlayerRegulation(other, true);
+        }
+    }
+
+    // Handle the actual regulation effect on the player
+    void HandlePlayerRegulation(Collider2D playerCollider, bool entering)
+    {
+        if (entering)
+        {
+            Player playerComponent = playerCollider.GetComponent<Player>();
+            
+                playerComponent.lives--;
+                Debug.Log("REDLIGHT");
+        }
+        else
+        {
+
+            Player playerComponent = playerCollider.GetComponent<Player>();
+            if (playerComponent != null)
+            {
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ public class SpeedLimit : MonoBehaviour
     {
         if (entering)
         {
-            Debug.Log("enetered speed limit");
+            //Debug.Log("enetered speed limit");
 
             Player playerComponent = playerCollider.GetComponent<Player>();
             if (playerComponent != null && playerComponent.CheckSpeed() >limit & isPunished != true)
