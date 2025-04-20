@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 113196678}
   - component: {fileID: 113196677}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: QuestionsCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1437,7 +1437,7 @@ GameObject:
   - component: {fileID: 1205583647}
   - component: {fileID: 1205583646}
   m_Layer: 0
-  m_Name: ControlsManager
+  m_Name: questionsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1452,8 +1452,8 @@ Transform:
   m_GameObject: {fileID: 1205583643}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -201, y: 119, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalPosition: {x: -187.68, y: 115.67, z: 0}
+  m_LocalScale: {x: 200, y: 400, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 113196676}
@@ -1470,7 +1470,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07aabcc07e9cdcf45b61b995c1ee7c39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  images: []
+  images:
+  - {fileID: 21300000, guid: 5a259f67c536ccc4f863c753ae06b610, type: 3}
+  - {fileID: 21300000, guid: 075fcdc85a8e33043be442f5a3f1ac02, type: 3}
+  - {fileID: 21300000, guid: 460e5930ee39c914b948be3805848513, type: 3}
   questionButton: {fileID: 760485316}
   button1: {fileID: 910380226}
   button2: {fileID: 725148251}
@@ -1522,8 +1525,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.32}
+  m_DrawMode: 1
+  m_Size: {x: 1.8278326, y: 0.4532149}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

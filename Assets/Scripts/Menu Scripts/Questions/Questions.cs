@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -31,13 +31,21 @@ public class Questions : MonoBehaviour
         string[] strings;
         questions.Clear();
 
-        strings = new string[] { "Klausimas", "!Atsakymas", "!Atsakymas2", "!Atsakymas3", "?Atsakymas4" };
+        strings = new string[] { "Šioje situacijoje 10 valandą ryto jūs raudonu automobiliu galite:",
+            "?Sukti į dešinę.", "?Apsisukti.", "!Važiuoti tiesiai.", "?Važiuoti tiesiai ir į kairę." };
         questions.Add(0, strings);
-        strings = new string[] { "Klausimas2", "!Atsakymas", "?Atsakymas2", "?Atsakymas3", "!Atsakymas4" };
+
+        strings = new string[] { "Kuris (-ie) kelio ženklas (-ai) nedraudžia sukti į kairę pusę?",
+            "!1", "!2", "!3", "!4" };
         questions.Add(1, strings);
-        strings = new string[] { "Klausimas3", "?Atsakymas", "!Atsakymas2", "?Atsakymas3", "?Atsakymas4" };
+
+        strings = new string[] { "Kokia eilės tvarka automobiliai važiuos per sankryžą?",
+            "!Geltonas, žalias, raudonas.", "?Žalias, raudonas, geltonas.", "?Raudonas vienu metu su geltonu, žalias.", "?Žalias, raudonas vienu metu su geltonu." };
         questions.Add(2, strings);
 
+        // klausimu sablonas
+        strings = new string[] { "Klausimas3",
+            "?Atsakymas", "!Atsakymas2", "?Atsakymas3", "?Atsakymas4" };
 
         foreach (var entry in questions)
         {
@@ -61,7 +69,10 @@ public class Questions : MonoBehaviour
         int value = remainingQuestions[randInt];
         remainingQuestions.RemoveAt(randInt);
 
-        //questionRenderer.sprite = images[value];
+
+        
+        Sprite newSpirte = images[value];
+        questionRenderer.sprite = newSpirte;
 
         return questions[value];
     }
