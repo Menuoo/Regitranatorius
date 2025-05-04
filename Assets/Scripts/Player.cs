@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(keyboard["upward"])) // move up
         {
-            if (transform.position.y <= 0f) // limits y position
+            if (transform.position.y <= 2.2f) // limits y position
                 transform.Translate(new Vector2(0f, abs(speed * Time.deltaTime / 4f)));
         }
         else if (Input.GetKey(keyboard["downward"])) //move down

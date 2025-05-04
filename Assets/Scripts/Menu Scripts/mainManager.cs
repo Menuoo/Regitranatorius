@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 public class mainManager : MonoBehaviour
 {
     [SerializeField]
-    int sceneID;
+    public int sceneID;
 
     public void StartGame() 
     {
+        GlobalVariables.currentScene = sceneID;
         SceneManager.LoadScene(sceneID);
     }
 
@@ -23,4 +24,10 @@ public class mainManager : MonoBehaviour
         Application.Quit();
     }
 
+    public static void ChangeScene(int scene)
+    {
+        mainManager manager = new mainManager();
+        manager.sceneID = scene;
+        manager.StartGame();
+    }
 }

@@ -107,6 +107,13 @@ public class Questions : MonoBehaviour
         correct = string.Compare(selection, answer) == 0;
 
         Debug.Log(string.Format("\nSelection: {0}, Correct:  {1}, Is correct?: {2}", selection, answer, correct));
+
+        if (correct)
+        {
+            levelCheck.updateClearData();
+        }
+
+        mainManager.ChangeScene(0);
     }
 
     public void SelectButton(Button btn)
