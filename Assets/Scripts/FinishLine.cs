@@ -8,6 +8,7 @@ public class FinishLine : MonoBehaviour
 
     void Activate()
     {
+        GlobalVariables.clearTime = GlobalVariables.StopTimer().Elapsed;
         GlobalVariables.clearedLevel = GlobalVariables.currentScene;
         mainManager.ChangeScene(3);
     }

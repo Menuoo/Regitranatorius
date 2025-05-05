@@ -13,7 +13,12 @@ public class levelCheck : MonoBehaviour
     void Start()
     {
         mainManager manager = GetComponent<mainManager>();
-        levelId = manager.sceneID;
+
+        if (manager != null)
+            levelId = manager.sceneID;
+        else
+            levelId = GlobalVariables.clearedLevel;
+
         accessClearData();
     }
 
@@ -23,8 +28,10 @@ public class levelCheck : MonoBehaviour
         int toUpdate = GlobalVariables.clearedLevel;
         if (true)
             GlobalVariables.levels[toUpdate, 0] = true;
-        if (true)
+
+        if (GlobalVariables.clearTime.TotalSeconds < 5)
             GlobalVariables.levels[toUpdate, 1] = true;
+
         if (true)
             GlobalVariables.levels[toUpdate, 2] = true;
     }

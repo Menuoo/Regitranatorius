@@ -111,6 +111,7 @@ public class Questions : MonoBehaviour
         if (correct)
         {
             levelCheck.updateClearData();
+            GlobalVariables.showResults = true;
         }
 
         mainManager.ChangeScene(0);

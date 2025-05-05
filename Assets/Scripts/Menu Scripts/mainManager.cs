@@ -10,6 +10,7 @@ public class mainManager : MonoBehaviour
 
     public void StartGame() 
     {
+        GlobalVariables.ResetTimer();
         GlobalVariables.currentScene = sceneID;
         SceneManager.LoadScene(sceneID);
     }
