@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
         livesText = livesObj.GetComponent<TMP_Text>();
 
         alive = true;
+        bodySprite.sprite = ChangeCarType.getTypeSprite();
         bodySprite.color = CarColour.getColour();
 
         explosion.SetActive(false);
