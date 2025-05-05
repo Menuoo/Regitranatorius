@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     bool toggled = false;
 
     public AudioSource soundHonk;
+    public AudioSource soundEngine;
+    public AudioSource soundJump;
 
     // Nitrous system variables
     float nitrousAmount = 100f, jumpAmount = 100f; // Total nitrous available
@@ -112,6 +114,12 @@ public class Player : MonoBehaviour
                 carCollider.enabled = true;
             }
         }
+        if (Input.GetKeyDown(keyboard["forward"]) || Input.GetKeyDown(keyboard["backward"])) // garsas xd
+        {
+            soundEngine.Play();
+        }
+        
+
         // end of jump mechanic
 
         // If speed exceeds current speed limit (which can happen when nitrous ends), gradually reduce it
@@ -155,6 +163,7 @@ public class Player : MonoBehaviour
                 speed = 0;
             else
                 speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
+            soundEngine.Stop();
         }
 
         if (Input.GetKey(keyboard["upward"])) // move up
@@ -189,6 +198,7 @@ public class Player : MonoBehaviour
             carCollider.enabled = false;
             jumpAmount = 0f;
             ySpeed = 15f; // set the jumping speed (and height)
+            soundJump.Play();
         }
 
         // parking gear toggle
