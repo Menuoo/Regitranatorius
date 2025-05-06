@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
         explosion.SetActive(false);
 
         keyboard = controlsManager.controls;
+        soundEngine.Play();
     }
 
     // Update is called once per frame
@@ -113,10 +114,6 @@ public class Player : MonoBehaviour
                 isJumping = false;
                 carCollider.enabled = true;
             }
-        }
-        if (Input.GetKeyDown(keyboard["forward"]) || Input.GetKeyDown(keyboard["backward"])) // garsas xd
-        {
-            soundEngine.Play();
         }
         
 
@@ -163,7 +160,6 @@ public class Player : MonoBehaviour
                 speed = 0;
             else
                 speed = speed > 0f ? speed - acceleration * Time.deltaTime : speed + acceleration * Time.deltaTime;
-            soundEngine.Stop();
         }
 
         if (Input.GetKey(keyboard["upward"])) // move up
@@ -177,6 +173,7 @@ public class Player : MonoBehaviour
                 transform.Translate(new Vector2(0f, -abs(speed * Time.deltaTime / 4f)));
 
         }
+        soundEngine.pitch = 1f+speed*0.03f;
 
         // honk mechanic
         if (Input.GetKeyDown(keyboard["honk"]))
@@ -280,6 +277,8 @@ public class Player : MonoBehaviour
 
     void Die()
     {
+        soundEngine.Stop();
+        
         alive = false;
         bodySprite.color = new Color(0.1f, 0.1f, 0.1f, 1f);
         body.transform.localScale = new Vector3(1f, -1f , 1f);
@@ -289,6 +288,8 @@ public class Player : MonoBehaviour
 
         if (initialDeath)
         {
+            soundHonk.pitch = 0.5f;//boom sound
+            soundHonk.Play();
             var boom = explosion.GetComponent<Animator>();
             explosion.SetActive(true);
             boom.Play("explosion");
