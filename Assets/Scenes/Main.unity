@@ -388,7 +388,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Settings
+  m_text: Nustatymai
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -740,7 +740,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press anywhere to continue
+  m_text: Spausti ant ekrano
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd3e2804d3697664ab350b863af46379, type: 2}
   m_sharedMaterial: {fileID: -5115421644300237641, guid: cd3e2804d3697664ab350b863af46379, type: 2}
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Background
+  m_text: Fono keitimas
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Close Game
+  m_text: "U\u017Edaryti"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1822,7 +1822,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteList:
   - {fileID: 21300000, guid: c8829fd25d282a740b4ebaf493bb473e, type: 3}
-  - {fileID: 21300000, guid: 2f28eaebb1cb99c459c539bbc7ed307f, type: 3}
+  - {fileID: 21300000, guid: 179a1c487a5a70b46a4925e23734e8e1, type: 3}
+  - {fileID: 21300000, guid: 2274fe95848b6724e9a387988a0333a8, type: 3}
   carSprite: {fileID: 1499431753}
 --- !u!1 &928090470
 GameObject:
@@ -2015,7 +2016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level Select
+  m_text: "\u017Daisti"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2429,7 +2430,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEVEL CLEARED
+  m_text: LYGIS PEREITAS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd3e2804d3697664ab350b863af46379, type: 2}
   m_sharedMaterial: {fileID: -5115421644300237641, guid: cd3e2804d3697664ab350b863af46379, type: 2}

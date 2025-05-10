@@ -29,7 +29,7 @@ public class levelCheck : MonoBehaviour
         if (true)
             GlobalVariables.levels[toUpdate, 0] = true;
 
-        if (GlobalVariables.clearTime.TotalSeconds < 5)
+        if (GlobalVariables.clearTime.TotalSeconds < 30)
             GlobalVariables.levels[toUpdate, 1] = true;
 
         if (true)
