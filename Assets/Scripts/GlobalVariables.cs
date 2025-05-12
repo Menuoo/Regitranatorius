@@ -15,7 +15,8 @@ public static class GlobalVariables
     public static int currentScene = 0;
     public static int clearedLevel = 0;
 
-    public static bool showResults = false; 
+    public static bool showResults = false;
+    public static bool playerLives = false;
 
     public static void ResetTimer()
     { 

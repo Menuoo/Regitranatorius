@@ -32,8 +32,11 @@ public class levelCheck : MonoBehaviour
         if (GlobalVariables.clearTime.TotalSeconds < 30)
             GlobalVariables.levels[toUpdate, 1] = true;
 
-        if (true)
+        if (GlobalVariables.playerLives)
+        {
             GlobalVariables.levels[toUpdate, 2] = true;
+            GlobalVariables.playerLives = false;
+        }
     }
 
     void accessClearData()

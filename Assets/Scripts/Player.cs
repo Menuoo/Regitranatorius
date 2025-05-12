@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 {
     bool alive;
     [SerializeField]
-    public int lives = 10;
+    public int lives = 3;
     float timer = 0.3f, timerCnt;
 
     float acceleration = 30f;

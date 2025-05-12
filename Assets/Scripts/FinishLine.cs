@@ -17,6 +17,11 @@ public class FinishLine : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
+            Player playerComponent = other.GetComponent<Player>();
+            if (playerComponent != null && playerComponent.CheckLives() >= 3)
+            {
+                GlobalVariables.playerLives = true;
+            }
             Activate();
         }
     }
