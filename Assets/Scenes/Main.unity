@@ -1261,6 +1261,7 @@ Transform:
   m_Children:
   - {fileID: 1734187572}
   - {fileID: 1194704487}
+  - {fileID: 1936475057}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &732935864
@@ -1577,7 +1578,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 80
+  m_SortingOrder: 59
   m_Sprite: {fileID: 21300000, guid: bc26ade4d7a3f844fbd1338786f9453b, type: 3}
   m_Color: {r: 0.64336103, g: 0.8867924, b: 0.33965817, a: 1}
   m_FlipX: 0
@@ -2207,7 +2208,6 @@ RectTransform:
   - {fileID: 2053497133}
   - {fileID: 2029664600}
   - {fileID: 916573135}
-  - {fileID: 1936475057}
   m_Father: {fileID: 581627034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2276,7 +2276,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 60
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!225 &1194704491
 CanvasGroup:
@@ -3354,9 +3354,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936475056}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 823966761}
@@ -3367,13 +3367,13 @@ RectTransform:
   - {fileID: 104220502}
   - {fileID: 430135962}
   - {fileID: 739091280}
-  m_Father: {fileID: 1194704487}
+  m_Father: {fileID: 581627034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 400.00003, y: 224.99998}
-  m_SizeDelta: {x: 800.00006, y: 450}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!225 &1936475058
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3447,7 +3447,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 120
   m_TargetDisplay: 0
 --- !u!114 &1936475062
 MonoBehaviour:

@@ -310,4 +310,5 @@ public class Player : MonoBehaviour
 
     public float CheckSpeed() => speed;
     public int CheckLives() => lives;
+
 }

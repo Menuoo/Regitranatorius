@@ -31,6 +31,9 @@ public class Questions : MonoBehaviour
         string[] strings;
         questions.Clear();
 
+        // ? - wrong answer
+        // ! - correct answer
+
         strings = new string[] { "Šioje situacijoje 10 valandą ryto jūs raudonu automobiliu galite:",
             "?Sukti į dešinę.", "?Apsisukti.", "!Važiuoti tiesiai.", "?Važiuoti tiesiai ir į kairę." };
         questions.Add(0, strings);
@@ -42,6 +45,20 @@ public class Questions : MonoBehaviour
         strings = new string[] { "Kokia eilės tvarka automobiliai važiuos per sankryžą?",
             "!Geltonas, žalias, raudonas.", "?Žalias, raudonas, geltonas.", "?Raudonas vienu metu su geltonu, žalias.", "?Žalias, raudonas vienu metu su geltonu." };
         questions.Add(2, strings);
+
+
+        strings = new string[] { "Kokios kategorijos reikia, norint vairuoti motorinį dviratį?",
+            "?AM kat.", "?A kat.", "?B kat.", "!Vairuotojo pažymėjimas nereikalingas." };
+        questions.Add(3, strings);
+
+        strings = new string[] { "Kurie kelio ženklai draudžia eiti pėstiesiems?",
+            "!Ženklas Nr. 1", "!Ženklas Nr. 2", "?Ženklas Nr. 3", "?Ženklas Nr. 4" };
+        questions.Add(4, strings);
+
+        strings = new string[] { "Kuris kelio ženklas draudžia transporto priemonei stovėti tik darbo dienomis?",
+            "?Nr. 2", "?Nr. 3", "!Nr. 4", "?Nr. 5" };
+        questions.Add(5, strings);
+
 
         // klausimu sablonas
         strings = new string[] { "Klausimas3",

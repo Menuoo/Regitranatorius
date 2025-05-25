@@ -1474,6 +1474,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5a259f67c536ccc4f863c753ae06b610, type: 3}
   - {fileID: 21300000, guid: 075fcdc85a8e33043be442f5a3f1ac02, type: 3}
   - {fileID: 21300000, guid: 460e5930ee39c914b948be3805848513, type: 3}
+  - {fileID: 21300000, guid: 3cef7914b52c257419432bff2e8a7f6b, type: 3}
+  - {fileID: 21300000, guid: 1af99a885103d8d4180d3452bb4c1fd2, type: 3}
+  - {fileID: 21300000, guid: bea3c8e57624e7448a0f390ad3b6a6da, type: 3}
   questionButton: {fileID: 760485316}
   button1: {fileID: 910380226}
   button2: {fileID: 725148251}
